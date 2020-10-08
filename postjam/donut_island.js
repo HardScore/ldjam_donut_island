@@ -7619,9 +7619,9 @@ EnemyDon.prototype = $extend(Entity.prototype,{
 					}
 					var point = flixel_math_FlxPoint._pool.get().set(X1,Y1);
 					point._inPool = false;
-					var point2 = point;
-					point2._weak = true;
-					var moveOffset = point1.rotate(point2,angleToPlayer);
+					var point11 = point;
+					point11._weak = true;
+					var moveOffset = point1.rotate(point11,angleToPlayer);
 					this.setPosition(this.x + moveOffset.x,this.y + moveOffset.y);
 				}
 				return;
@@ -7744,9 +7744,9 @@ EnemySnek.prototype = $extend(Entity.prototype,{
 					}
 					var point = flixel_math_FlxPoint._pool.get().set(X1,Y1);
 					point._inPool = false;
-					var point2 = point;
-					point2._weak = true;
-					var moveOffset = point1.rotate(point2,angleToPlayer);
+					var point11 = point;
+					point11._weak = true;
+					var moveOffset = point1.rotate(point11,angleToPlayer);
 					this.setPosition(this.x + moveOffset.x,this.y + moveOffset.y);
 				}
 				return;
@@ -7976,9 +7976,9 @@ EnemyTorashiKun.prototype = $extend(Entity.prototype,{
 					}
 					var point = flixel_math_FlxPoint._pool.get().set(X1,Y1);
 					point._inPool = false;
-					var point2 = point;
-					point2._weak = true;
-					var moveOffset = point1.rotate(point2,angleToNearestBody);
+					var point11 = point;
+					point11._weak = true;
+					var moveOffset = point1.rotate(point11,angleToNearestBody);
 					this.setPosition(this.x + moveOffset.x,this.y + moveOffset.y);
 				}
 				return;
@@ -8062,198 +8062,6 @@ var BulletType = $hxEnums["BulletType"] = { __ename__ : "BulletType", __construc
 	,SMG_ROUND: {_hx_index:6,__enum__:"BulletType",toString:$estr}
 };
 BulletType.__empty_constructs__ = [BulletType.BLANK,BulletType.SIMPLE_PLAYER,BulletType.SIMPLE_ENEMY,BulletType.LASER_BALL,BulletType.SHOTGUN_SHELL_PLAYER,BulletType.SHOTGUN_SHELL_ENEMY,BulletType.SMG_ROUND];
-var haxe_ds_BalancedTree = function() {
-};
-$hxClasses["haxe.ds.BalancedTree"] = haxe_ds_BalancedTree;
-haxe_ds_BalancedTree.__name__ = "haxe.ds.BalancedTree";
-haxe_ds_BalancedTree.__interfaces__ = [haxe_IMap];
-haxe_ds_BalancedTree.prototype = {
-	root: null
-	,set: function(key,value) {
-		this.root = this.setLoop(key,value,this.root);
-	}
-	,get: function(key) {
-		var node = this.root;
-		while(node != null) {
-			var c = this.compare(key,node.key);
-			if(c == 0) {
-				return node.value;
-			}
-			if(c < 0) {
-				node = node.left;
-			} else {
-				node = node.right;
-			}
-		}
-		return null;
-	}
-	,remove: function(key) {
-		try {
-			this.root = this.removeLoop(key,this.root);
-			return true;
-		} catch( _g ) {
-			if(typeof(haxe_Exception.caught(_g).unwrap()) == "string") {
-				return false;
-			} else {
-				throw _g;
-			}
-		}
-	}
-	,exists: function(key) {
-		var node = this.root;
-		while(node != null) {
-			var c = this.compare(key,node.key);
-			if(c == 0) {
-				return true;
-			} else if(c < 0) {
-				node = node.left;
-			} else {
-				node = node.right;
-			}
-		}
-		return false;
-	}
-	,keys: function() {
-		var ret = [];
-		this.keysLoop(this.root,ret);
-		return new haxe_iterators_ArrayIterator(ret);
-	}
-	,setLoop: function(k,v,node) {
-		if(node == null) {
-			return new haxe_ds_TreeNode(null,k,v,null);
-		}
-		var c = this.compare(k,node.key);
-		if(c == 0) {
-			return new haxe_ds_TreeNode(node.left,k,v,node.right,node == null ? 0 : node._height);
-		} else if(c < 0) {
-			var nl = this.setLoop(k,v,node.left);
-			return this.balance(nl,node.key,node.value,node.right);
-		} else {
-			var nr = this.setLoop(k,v,node.right);
-			return this.balance(node.left,node.key,node.value,nr);
-		}
-	}
-	,removeLoop: function(k,node) {
-		if(node == null) {
-			throw haxe_Exception.thrown("Not_found");
-		}
-		var c = this.compare(k,node.key);
-		if(c == 0) {
-			return this.merge(node.left,node.right);
-		} else if(c < 0) {
-			return this.balance(this.removeLoop(k,node.left),node.key,node.value,node.right);
-		} else {
-			return this.balance(node.left,node.key,node.value,this.removeLoop(k,node.right));
-		}
-	}
-	,keysLoop: function(node,acc) {
-		if(node != null) {
-			this.keysLoop(node.left,acc);
-			acc.push(node.key);
-			this.keysLoop(node.right,acc);
-		}
-	}
-	,merge: function(t1,t2) {
-		if(t1 == null) {
-			return t2;
-		}
-		if(t2 == null) {
-			return t1;
-		}
-		var t = this.minBinding(t2);
-		return this.balance(t1,t.key,t.value,this.removeMinBinding(t2));
-	}
-	,minBinding: function(t) {
-		if(t == null) {
-			throw haxe_Exception.thrown("Not_found");
-		} else if(t.left == null) {
-			return t;
-		} else {
-			return this.minBinding(t.left);
-		}
-	}
-	,removeMinBinding: function(t) {
-		if(t.left == null) {
-			return t.right;
-		} else {
-			return this.balance(this.removeMinBinding(t.left),t.key,t.value,t.right);
-		}
-	}
-	,balance: function(l,k,v,r) {
-		var hl = l == null ? 0 : l._height;
-		var hr = r == null ? 0 : r._height;
-		if(hl > hr + 2) {
-			var _this = l.left;
-			var _this1 = l.right;
-			if((_this == null ? 0 : _this._height) >= (_this1 == null ? 0 : _this1._height)) {
-				return new haxe_ds_TreeNode(l.left,l.key,l.value,new haxe_ds_TreeNode(l.right,k,v,r));
-			} else {
-				return new haxe_ds_TreeNode(new haxe_ds_TreeNode(l.left,l.key,l.value,l.right.left),l.right.key,l.right.value,new haxe_ds_TreeNode(l.right.right,k,v,r));
-			}
-		} else if(hr > hl + 2) {
-			var _this = r.right;
-			var _this1 = r.left;
-			if((_this == null ? 0 : _this._height) > (_this1 == null ? 0 : _this1._height)) {
-				return new haxe_ds_TreeNode(new haxe_ds_TreeNode(l,k,v,r.left),r.key,r.value,r.right);
-			} else {
-				return new haxe_ds_TreeNode(new haxe_ds_TreeNode(l,k,v,r.left.left),r.left.key,r.left.value,new haxe_ds_TreeNode(r.left.right,r.key,r.value,r.right));
-			}
-		} else {
-			return new haxe_ds_TreeNode(l,k,v,r,(hl > hr ? hl : hr) + 1);
-		}
-	}
-	,compare: function(k1,k2) {
-		return Reflect.compare(k1,k2);
-	}
-	,__class__: haxe_ds_BalancedTree
-};
-var haxe_ds_EnumValueMap = function() {
-	haxe_ds_BalancedTree.call(this);
-};
-$hxClasses["haxe.ds.EnumValueMap"] = haxe_ds_EnumValueMap;
-haxe_ds_EnumValueMap.__name__ = "haxe.ds.EnumValueMap";
-haxe_ds_EnumValueMap.__interfaces__ = [haxe_IMap];
-haxe_ds_EnumValueMap.__super__ = haxe_ds_BalancedTree;
-haxe_ds_EnumValueMap.prototype = $extend(haxe_ds_BalancedTree.prototype,{
-	compare: function(k1,k2) {
-		var d = k1._hx_index - k2._hx_index;
-		if(d != 0) {
-			return d;
-		}
-		var p1 = Type.enumParameters(k1);
-		var p2 = Type.enumParameters(k2);
-		if(p1.length == 0 && p2.length == 0) {
-			return 0;
-		}
-		return this.compareArgs(p1,p2);
-	}
-	,compareArgs: function(a1,a2) {
-		var ld = a1.length - a2.length;
-		if(ld != 0) {
-			return ld;
-		}
-		var _g = 0;
-		var _g1 = a1.length;
-		while(_g < _g1) {
-			var i = _g++;
-			var d = this.compareArg(a1[i],a2[i]);
-			if(d != 0) {
-				return d;
-			}
-		}
-		return 0;
-	}
-	,compareArg: function(v1,v2) {
-		if(Reflect.isEnumValue(v1) && Reflect.isEnumValue(v2)) {
-			return this.compare(v1,v2);
-		} else if(((v1) instanceof Array) && ((v2) instanceof Array)) {
-			return this.compareArgs(v1,v2);
-		} else {
-			return Reflect.compare(v1,v2);
-		}
-	}
-	,__class__: haxe_ds_EnumValueMap
-});
 var Player = function(x,y) {
 	if(y == null) {
 		y = 0;
@@ -9524,9 +9332,9 @@ var HUD = function() {
 	this.hpBar.scrollFactor.set(0,0);
 	var tmp = this.hpBar;
 	var color = flixel_util_FlxColor._new();
-	var Alpha = 255;
-	if(Alpha == null) {
-		Alpha = 255;
+	var Alpha1 = 255;
+	if(Alpha1 == null) {
+		Alpha1 = 255;
 	}
 	color &= -16711681;
 	color |= 5963776;
@@ -9535,13 +9343,13 @@ var HUD = function() {
 	color &= -256;
 	color |= 61;
 	color &= 16777215;
-	color |= (Alpha > 255 ? 255 : Alpha < 0 ? 0 : Alpha) << 24;
+	color |= (Alpha1 > 255 ? 255 : Alpha1 < 0 ? 0 : Alpha1) << 24;
 	tmp.createColoredEmptyBar(color,true);
 	var tmp = this.hpBar;
 	var color = flixel_util_FlxColor._new();
-	var Alpha = 255;
-	if(Alpha == null) {
-		Alpha = 255;
+	var Alpha1 = 255;
+	if(Alpha1 == null) {
+		Alpha1 = 255;
 	}
 	color &= -16711681;
 	color |= 12582912;
@@ -9550,7 +9358,7 @@ var HUD = function() {
 	color &= -256;
 	color |= 64;
 	color &= 16777215;
-	color |= (Alpha > 255 ? 255 : Alpha < 0 ? 0 : Alpha) << 24;
+	color |= (Alpha1 > 255 ? 255 : Alpha1 < 0 ? 0 : Alpha1) << 24;
 	tmp.createColoredFilledBar(color,true);
 	this.rollBar = new flixel_ui_FlxBar(10,50,flixel_ui_FlxBarFillDirection.TOP_TO_BOTTOM,24,24,(js_Boot.__cast(flixel_FlxG.game._state , PlayState)).player,"rollColldownTimeLeft",0,1.67,true);
 	this.rollBar.createImageBar("assets/images/RollBarFull.png","assets/images/RollBarEmpty.png");
@@ -10354,8 +10162,6 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.entities.add(this.player);
 		this.enemySpawner = new EnemySpawner();
 		this.add(this.enemySpawner);
-		var testDon = new EnemySnek(432,608);
-		this.entities.add(testDon);
 		this.tutorialBody = new EnemyDon(336,256);
 		this.tutorialBody.kill();
 		this.entities.add(this.tutorialBody);
@@ -56330,6 +56136,151 @@ haxe_ds_ArraySort.swap = function(a,i,j) {
 	a[i] = a[j];
 	a[j] = tmp;
 };
+var haxe_ds_BalancedTree = function() {
+};
+$hxClasses["haxe.ds.BalancedTree"] = haxe_ds_BalancedTree;
+haxe_ds_BalancedTree.__name__ = "haxe.ds.BalancedTree";
+haxe_ds_BalancedTree.__interfaces__ = [haxe_IMap];
+haxe_ds_BalancedTree.prototype = {
+	root: null
+	,set: function(key,value) {
+		this.root = this.setLoop(key,value,this.root);
+	}
+	,get: function(key) {
+		var node = this.root;
+		while(node != null) {
+			var c = this.compare(key,node.key);
+			if(c == 0) {
+				return node.value;
+			}
+			if(c < 0) {
+				node = node.left;
+			} else {
+				node = node.right;
+			}
+		}
+		return null;
+	}
+	,remove: function(key) {
+		try {
+			this.root = this.removeLoop(key,this.root);
+			return true;
+		} catch( _g ) {
+			if(typeof(haxe_Exception.caught(_g).unwrap()) == "string") {
+				return false;
+			} else {
+				throw _g;
+			}
+		}
+	}
+	,exists: function(key) {
+		var node = this.root;
+		while(node != null) {
+			var c = this.compare(key,node.key);
+			if(c == 0) {
+				return true;
+			} else if(c < 0) {
+				node = node.left;
+			} else {
+				node = node.right;
+			}
+		}
+		return false;
+	}
+	,keys: function() {
+		var ret = [];
+		this.keysLoop(this.root,ret);
+		return new haxe_iterators_ArrayIterator(ret);
+	}
+	,setLoop: function(k,v,node) {
+		if(node == null) {
+			return new haxe_ds_TreeNode(null,k,v,null);
+		}
+		var c = this.compare(k,node.key);
+		if(c == 0) {
+			return new haxe_ds_TreeNode(node.left,k,v,node.right,node == null ? 0 : node._height);
+		} else if(c < 0) {
+			var nl = this.setLoop(k,v,node.left);
+			return this.balance(nl,node.key,node.value,node.right);
+		} else {
+			var nr = this.setLoop(k,v,node.right);
+			return this.balance(node.left,node.key,node.value,nr);
+		}
+	}
+	,removeLoop: function(k,node) {
+		if(node == null) {
+			throw haxe_Exception.thrown("Not_found");
+		}
+		var c = this.compare(k,node.key);
+		if(c == 0) {
+			return this.merge(node.left,node.right);
+		} else if(c < 0) {
+			return this.balance(this.removeLoop(k,node.left),node.key,node.value,node.right);
+		} else {
+			return this.balance(node.left,node.key,node.value,this.removeLoop(k,node.right));
+		}
+	}
+	,keysLoop: function(node,acc) {
+		if(node != null) {
+			this.keysLoop(node.left,acc);
+			acc.push(node.key);
+			this.keysLoop(node.right,acc);
+		}
+	}
+	,merge: function(t1,t2) {
+		if(t1 == null) {
+			return t2;
+		}
+		if(t2 == null) {
+			return t1;
+		}
+		var t = this.minBinding(t2);
+		return this.balance(t1,t.key,t.value,this.removeMinBinding(t2));
+	}
+	,minBinding: function(t) {
+		if(t == null) {
+			throw haxe_Exception.thrown("Not_found");
+		} else if(t.left == null) {
+			return t;
+		} else {
+			return this.minBinding(t.left);
+		}
+	}
+	,removeMinBinding: function(t) {
+		if(t.left == null) {
+			return t.right;
+		} else {
+			return this.balance(this.removeMinBinding(t.left),t.key,t.value,t.right);
+		}
+	}
+	,balance: function(l,k,v,r) {
+		var hl = l == null ? 0 : l._height;
+		var hr = r == null ? 0 : r._height;
+		if(hl > hr + 2) {
+			var _this = l.left;
+			var _this1 = l.right;
+			if((_this == null ? 0 : _this._height) >= (_this1 == null ? 0 : _this1._height)) {
+				return new haxe_ds_TreeNode(l.left,l.key,l.value,new haxe_ds_TreeNode(l.right,k,v,r));
+			} else {
+				return new haxe_ds_TreeNode(new haxe_ds_TreeNode(l.left,l.key,l.value,l.right.left),l.right.key,l.right.value,new haxe_ds_TreeNode(l.right.right,k,v,r));
+			}
+		} else if(hr > hl + 2) {
+			var _this = r.right;
+			var _this1 = r.left;
+			if((_this == null ? 0 : _this._height) > (_this1 == null ? 0 : _this1._height)) {
+				return new haxe_ds_TreeNode(new haxe_ds_TreeNode(l,k,v,r.left),r.key,r.value,r.right);
+			} else {
+				return new haxe_ds_TreeNode(new haxe_ds_TreeNode(l,k,v,r.left.left),r.left.key,r.left.value,new haxe_ds_TreeNode(r.left.right,r.key,r.value,r.right));
+			}
+		} else {
+			return new haxe_ds_TreeNode(l,k,v,r,(hl > hr ? hl : hr) + 1);
+		}
+	}
+	,compare: function(k1,k2) {
+		return Reflect.compare(k1,k2);
+	}
+	,__class__: haxe_ds_BalancedTree
+};
 var haxe_ds_TreeNode = function(l,k,v,r,h) {
 	if(h == null) {
 		h = -1;
@@ -56364,6 +56315,53 @@ haxe_ds_TreeNode.prototype = {
 	,_height: null
 	,__class__: haxe_ds_TreeNode
 };
+var haxe_ds_EnumValueMap = function() {
+	haxe_ds_BalancedTree.call(this);
+};
+$hxClasses["haxe.ds.EnumValueMap"] = haxe_ds_EnumValueMap;
+haxe_ds_EnumValueMap.__name__ = "haxe.ds.EnumValueMap";
+haxe_ds_EnumValueMap.__interfaces__ = [haxe_IMap];
+haxe_ds_EnumValueMap.__super__ = haxe_ds_BalancedTree;
+haxe_ds_EnumValueMap.prototype = $extend(haxe_ds_BalancedTree.prototype,{
+	compare: function(k1,k2) {
+		var d = k1._hx_index - k2._hx_index;
+		if(d != 0) {
+			return d;
+		}
+		var p1 = Type.enumParameters(k1);
+		var p2 = Type.enumParameters(k2);
+		if(p1.length == 0 && p2.length == 0) {
+			return 0;
+		}
+		return this.compareArgs(p1,p2);
+	}
+	,compareArgs: function(a1,a2) {
+		var ld = a1.length - a2.length;
+		if(ld != 0) {
+			return ld;
+		}
+		var _g = 0;
+		var _g1 = a1.length;
+		while(_g < _g1) {
+			var i = _g++;
+			var d = this.compareArg(a1[i],a2[i]);
+			if(d != 0) {
+				return d;
+			}
+		}
+		return 0;
+	}
+	,compareArg: function(v1,v2) {
+		if(Reflect.isEnumValue(v1) && Reflect.isEnumValue(v2)) {
+			return this.compare(v1,v2);
+		} else if(((v1) instanceof Array) && ((v2) instanceof Array)) {
+			return this.compareArgs(v1,v2);
+		} else {
+			return Reflect.compare(v1,v2);
+		}
+	}
+	,__class__: haxe_ds_EnumValueMap
+});
 var haxe_ds_GenericCell = function(elt,next) {
 	this.elt = elt;
 	this.next = next;
