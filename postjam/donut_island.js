@@ -893,13 +893,13 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "138";
+	app.meta.h["build"] = "139";
 	app.meta.h["company"] = "OdedRon";
 	app.meta.h["file"] = "donut_island";
 	app.meta.h["name"] = "Donut Island";
 	app.meta.h["packageName"] = "com.example.myapp";
 	app.meta.h["version"] = "0.0.1";
-	var attributes = { allowHighDPI : false, alwaysOnTop : false, borderless : false, element : null, frameRate : 60, height : 704, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : false, title : "Donut Island", width : 1280, x : null, y : null};
+	var attributes = { allowHighDPI : false, alwaysOnTop : false, borderless : false, element : null, frameRate : 60, height : 704, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, title : "Donut Island", width : 1280, x : null, y : null};
 	attributes.context = { antialiasing : 0, background : 0, colorDepth : 32, depth : true, hardware : true, stencil : true, type : null, vsync : false};
 	if(app.__window == null) {
 		if(config != null) {
@@ -9307,6 +9307,10 @@ GameOverState.prototype = $extend(flixel_FlxState.prototype,{
 		ref.scrollFactor.set(0,0);
 	}
 	,update: function(elapsed) {
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatus(70,_this.status)) {
+			flixel_FlxG.set_fullscreen(!flixel_FlxG.get_fullscreen());
+		}
 		flixel_FlxState.prototype.update.call(this,elapsed);
 	}
 	,clickPlay: function() {
@@ -10071,6 +10075,10 @@ MenuState.prototype = $extend(flixel_FlxState.prototype,{
 		var creditTxt = new flixel_text_FlxBitmapText(fontXNA);
 		this.configureBitmapText(creditTxt,"By RonL & Odedro987",128.);
 		this.add(creditTxt);
+		var fsTxt = new flixel_text_FlxBitmapText(fontXNA);
+		this.configureBitmapText(fsTxt,"Press 'F' to toggle fullscreen",304);
+		fsTxt.scale.set(0.9,0.9);
+		this.add(fsTxt);
 	}
 	,configureBitmapText: function(ref,text,y) {
 		ref.set_text(text);
@@ -10100,6 +10108,10 @@ MenuState.prototype = $extend(flixel_FlxState.prototype,{
 		ref.scrollFactor.set(0,0);
 	}
 	,update: function(elapsed) {
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatus(70,_this.status)) {
+			flixel_FlxG.set_fullscreen(!flixel_FlxG.get_fullscreen());
+		}
 		flixel_FlxState.prototype.update.call(this,elapsed);
 	}
 	,clickOptions: function() {
@@ -10197,11 +10209,15 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	}
 	,update: function(elapsed) {
 		var _gthis = this;
-		flixel_FlxState.prototype.update.call(this,elapsed);
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatus(70,_this.status)) {
+			flixel_FlxG.set_fullscreen(!flixel_FlxG.get_fullscreen());
+		}
 		this.entities.forEachExists(function(entity) {
 			_gthis.tileMap.overlaps(js_Boot.__cast(entity , Entity));
 		});
 		this.bullets.update(elapsed);
+		flixel_FlxState.prototype.update.call(this,elapsed);
 	}
 	,__class__: PlayState
 });
@@ -76453,7 +76469,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 941951;
+	this.version = 661764;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
