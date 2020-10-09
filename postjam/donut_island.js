@@ -893,7 +893,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "150";
+	app.meta.h["build"] = "154";
 	app.meta.h["company"] = "OdedRon";
 	app.meta.h["file"] = "donut_island";
 	app.meta.h["name"] = "Donut Island";
@@ -9514,6 +9514,14 @@ GameOverState.prototype = $extend(flixel_FlxState.prototype,{
 		if(_this.keyManager.checkStatus(70,_this.status)) {
 			flixel_FlxG.set_fullscreen(!flixel_FlxG.get_fullscreen());
 		}
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatus(77,_this.status)) {
+			if(flixel_FlxG.sound.music._volume == 0) {
+				flixel_FlxG.sound.music.set_volume(0.4);
+			} else {
+				flixel_FlxG.sound.music.set_volume(0);
+			}
+		}
 		flixel_FlxState.prototype.update.call(this,elapsed);
 	}
 	,clickPlay: function() {
@@ -9939,7 +9947,7 @@ ManifestResources.init = function(config) {
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$nokiafc22_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$monsterrat_$ttf);
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy34:assets%2Fdata%2Fdata-goes-here.txty4:sizezy4:typey4:TEXTy2:idR1y7:preloadtgoR0y34:assets%2Fimages%2FAttackDamage.pngR2i252R3y5:IMAGER5R7R6tgoR0y33:assets%2Fimages%2FAttackSpeed.pngR2i268R3R8R5R9R6tgoR0y27:assets%2Fimages%2FCandy.pngR2i240R3R8R5R10R6tgoR0y26:assets%2Fimages%2FDon1.pngR2i3355R3R8R5R11R6tgoR0y26:assets%2Fimages%2FDon2.pngR2i3751R3R8R5R12R6tgoR0y30:assets%2Fimages%2FEmptyBar.pngR2i103R3R8R5R13R6tgoR0y30:assets%2Fimages%2FfontData.pngR2i2785R3R8R5R14R6tgoR0y34:assets%2Fimages%2FHealthPotion.pngR2i376R3R8R5R15R6tgoR0y31:assets%2Fimages%2FLaserBall.pngR2i1133R3R8R5R16R6tgoR0y30:assets%2Fimages%2FLaserGun.pngR2i589R3R8R5R17R6tgoR0y26:assets%2Fimages%2FLogo.pngR2i1906R3R8R5R18R6tgoR0y30:assets%2Fimages%2FMainMenu.pngR2i67566R3R8R5R19R6tgoR0y45:assets%2Fimages%2FMultiplierHUDBackgroung.pngR2i153R3R8R5R20R6tgoR0y29:assets%2Fimages%2FNothing.pngR2i81R3R8R5R21R6tgoR0y28:assets%2Fimages%2FPistol.pngR2i350R3R8R5R22R6tgoR0y34:assets%2Fimages%2FPistolBullet.pngR2i131R3R8R5R23R6tgoR0y32:assets%2Fimages%2FPistolItem.pngR2i211R3R8R5R24R6tgoR0y32:assets%2Fimages%2FPlayButton.pngR2i1255R3R8R5R25R6tgoR0y28:assets%2Fimages%2FPlayer.pngR2i1938R3R8R5R26R6tgoR0y29:assets%2Fimages%2FPretzel.pngR2i540R3R8R5R27R6tgoR0y34:assets%2Fimages%2FRollBarEmpty.pngR2i504R3R8R5R28R6tgoR0y33:assets%2Fimages%2FRollBarFull.pngR2i534R3R8R5R29R6tgoR0y30:assets%2Fimages%2FRunSpeed.pngR2i320R3R8R5R30R6tgoR0y34:assets%2Fimages%2FSacrificeBar.pngR2i361R3R8R5R31R6tgoR0y40:assets%2Fimages%2FSacrificeContainer.pngR2i813R3R8R5R32R6tgoR0y29:assets%2Fimages%2FShotgun.pngR2i445R3R8R5R33R6tgoR0y35:assets%2Fimages%2FShotgunBullet.pngR2i106R3R8R5R34R6tgoR0y33:assets%2Fimages%2FShotgunItem.pngR2i254R3R8R5R35R6tgoR0y25:assets%2Fimages%2FSMG.pngR2i367R3R8R5R36R6tgoR0y29:assets%2Fimages%2FSMGItem.pngR2i259R3R8R5R37R6tgoR0y27:assets%2Fimages%2FSnek1.pngR2i2467R3R8R5R38R6tgoR0y27:assets%2Fimages%2FSnek2.pngR2i2410R3R8R5R39R6tgoR0y27:assets%2Fimages%2FSufgi.pngR2i399R3R8R5R40R6tgoR0y36:assets%2Fimages%2FTiles%2Fcircle.csvR2i4243R3R4R5R41R6tgoR0y36:assets%2Fimages%2FTiles%2Fcircle.tmxR2i4794R3R4R5R42R6tgoR0y38:assets%2Fimages%2FTiles%2FMainMenu.tmxR2i3789R3R4R5R43R6tgoR0y38:assets%2Fimages%2FTiles%2Ftemp_map.csvR2i2266R3R4R5R44R6tgoR0y38:assets%2Fimages%2FTiles%2Ftemp_map.tmxR2i2819R3R4R5R45R6tgoR0y35:assets%2Fimages%2FTiles%2FTiles.pngR2i3028R3R8R5R46R6tgoR0y45:assets%2Fimages%2FTiles%2FWellOfSacrifice.aseR2i1951R3y6:BINARYR5R47R6tgoR0y33:assets%2Fimages%2FTorashiKun1.pngR2i3580R3R8R5R49R6tgoR0y33:assets%2Fimages%2FTorashiKun2.pngR2i3618R3R8R5R50R6tgoR0y31:assets%2Fimages%2FToyPistol.pngR2i313R3R8R5R51R6tgoR0y35:assets%2Fimages%2FTutorialArrow.pngR2i169R3R8R5R52R6tgoR2i183329R3y5:SOUNDR5y37:assets%2Fmusic%2Fbackground_music.oggy9:pathGroupaR54hR6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R56R6tgoR2i7383R3R53R5y29:assets%2Fsounds%2Fgunshot.oggR55aR57hR6tgoR2i39080R3R53R5y25:assets%2Fsounds%2Fhit.oggR55aR58hR6tgoR2i8410R3R53R5y31:assets%2Fsounds%2Fkalimba_a.oggR55aR59hR6tgoR2i6356R3R53R5y31:assets%2Fsounds%2Fkalimba_b.oggR55aR60hR6tgoR2i8240R3R53R5y31:assets%2Fsounds%2Fkalimba_c.oggR55aR61hR6tgoR2i8475R3R53R5y31:assets%2Fsounds%2Fkalimba_d.oggR55aR62hR6tgoR2i8312R3R53R5y31:assets%2Fsounds%2Fkalimba_e.oggR55aR63hR6tgoR2i8663R3R53R5y31:assets%2Fsounds%2Fkalimba_f.oggR55aR64hR6tgoR2i8374R3R53R5y31:assets%2Fsounds%2Fkalimba_g.oggR55aR65hR6tgoR2i6279R3R53R5y36:assets%2Fsounds%2Fkalimba_high_c.oggR55aR66hR6tgoR2i9024R3R53R5y37:assets%2Fsounds%2Flaserball_shoot.oggR55aR67hR6tgoR2i49109R3R53R5y33:assets%2Fsounds%2Fpickup_item.oggR55aR68hR6tgoR2i35093R3R53R5y26:assets%2Fsounds%2Froll.oggR55aR69hR6tgoR2i34234R3R53R5y29:assets%2Fsounds%2Fshotgun.oggR55aR70hR6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R71R6tgoR2i20745R3R53R5y26:assets%2Fsounds%2Fwalk.oggR55aR72hR6tgoR2i2114R3y5:MUSICR5y26:flixel%2Fsounds%2Fbeep.mp3R55aR74y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R73R5y28:flixel%2Fsounds%2Fflixel.mp3R55aR76y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i5794R3R53R5R75R55aR74R75hgoR2i33629R3R53R5R77R55aR76R77hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R78R79y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i519R3R8R5R84R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i3280R3R8R5R85R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Fbox.pngR2i912R3R8R5R86R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fbutton.pngR2i433R3R8R5R87R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_down.pngR2i446R3R8R5R88R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_left.pngR2i459R3R8R5R89R6tgoR0y49:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_right.pngR2i511R3R8R5R90R6tgoR0y46:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_up.pngR2i493R3R8R5R91R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fbutton_thin.pngR2i247R3R8R5R92R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fbutton_toggle.pngR2i534R3R8R5R93R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fcheck_box.pngR2i922R3R8R5R94R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fcheck_mark.pngR2i946R3R8R5R95R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fchrome.pngR2i253R3R8R5R96R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fchrome_flat.pngR2i212R3R8R5R97R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_inset.pngR2i192R3R8R5R98R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_light.pngR2i214R3R8R5R99R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fdropdown_mark.pngR2i156R3R8R5R100R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Ffinger_big.pngR2i1724R3R8R5R101R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Ffinger_small.pngR2i294R3R8R5R102R6tgoR0y38:flixel%2Fflixel-ui%2Fimg%2Fhilight.pngR2i129R3R8R5R103R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Finvis.pngR2i128R3R8R5R104R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fminus_mark.pngR2i136R3R8R5R105R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fplus_mark.pngR2i147R3R8R5R106R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Fradio.pngR2i191R3R8R5R107R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fradio_dot.pngR2i153R3R8R5R108R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fswatch.pngR2i185R3R8R5R109R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Ftab.pngR2i201R3R8R5R110R6tgoR0y39:flixel%2Fflixel-ui%2Fimg%2Ftab_back.pngR2i210R3R8R5R111R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Ftooltip_arrow.pngR2i18509R3R8R5R112R6tgoR0y39:flixel%2Fflixel-ui%2Fxml%2Fdefaults.xmlR2i1263R3R4R5R113R6tgoR0y53:flixel%2Fflixel-ui%2Fxml%2Fdefault_loading_screen.xmlR2i1953R3R4R5R114R6tgoR0y44:flixel%2Fflixel-ui%2Fxml%2Fdefault_popup.xmlR2i1848R3R4R5R115R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy34:assets%2Fdata%2Fdata-goes-here.txty4:sizezy4:typey4:TEXTy2:idR1y7:preloadtgoR0y34:assets%2Fimages%2FAttackDamage.pngR2i252R3y5:IMAGER5R7R6tgoR0y33:assets%2Fimages%2FAttackSpeed.pngR2i268R3R8R5R9R6tgoR0y27:assets%2Fimages%2FCandy.pngR2i240R3R8R5R10R6tgoR0y26:assets%2Fimages%2FDon1.pngR2i3355R3R8R5R11R6tgoR0y26:assets%2Fimages%2FDon2.pngR2i3751R3R8R5R12R6tgoR0y30:assets%2Fimages%2FEmptyBar.pngR2i103R3R8R5R13R6tgoR0y30:assets%2Fimages%2FfontData.pngR2i2785R3R8R5R14R6tgoR0y34:assets%2Fimages%2FHealthPotion.pngR2i376R3R8R5R15R6tgoR0y31:assets%2Fimages%2FLaserBall.pngR2i1133R3R8R5R16R6tgoR0y30:assets%2Fimages%2FLaserGun.pngR2i589R3R8R5R17R6tgoR0y26:assets%2Fimages%2FLogo.pngR2i1906R3R8R5R18R6tgoR0y30:assets%2Fimages%2FMainMenu.pngR2i67566R3R8R5R19R6tgoR0y45:assets%2Fimages%2FMultiplierHUDBackgroung.pngR2i153R3R8R5R20R6tgoR0y29:assets%2Fimages%2FNothing.pngR2i81R3R8R5R21R6tgoR0y28:assets%2Fimages%2FPistol.pngR2i350R3R8R5R22R6tgoR0y34:assets%2Fimages%2FPistolBullet.pngR2i131R3R8R5R23R6tgoR0y32:assets%2Fimages%2FPistolItem.pngR2i211R3R8R5R24R6tgoR0y32:assets%2Fimages%2FPlayButton.pngR2i1255R3R8R5R25R6tgoR0y28:assets%2Fimages%2FPlayer.pngR2i1938R3R8R5R26R6tgoR0y34:assets%2Fimages%2FRollBarEmpty.pngR2i504R3R8R5R27R6tgoR0y33:assets%2Fimages%2FRollBarFull.pngR2i534R3R8R5R28R6tgoR0y30:assets%2Fimages%2FRunSpeed.pngR2i320R3R8R5R29R6tgoR0y34:assets%2Fimages%2FSacrificeBar.pngR2i361R3R8R5R30R6tgoR0y40:assets%2Fimages%2FSacrificeContainer.pngR2i813R3R8R5R31R6tgoR0y29:assets%2Fimages%2FShotgun.pngR2i445R3R8R5R32R6tgoR0y35:assets%2Fimages%2FShotgunBullet.pngR2i106R3R8R5R33R6tgoR0y33:assets%2Fimages%2FShotgunItem.pngR2i254R3R8R5R34R6tgoR0y25:assets%2Fimages%2FSMG.pngR2i367R3R8R5R35R6tgoR0y29:assets%2Fimages%2FSMGItem.pngR2i259R3R8R5R36R6tgoR0y27:assets%2Fimages%2FSnek1.pngR2i2467R3R8R5R37R6tgoR0y27:assets%2Fimages%2FSnek2.pngR2i2410R3R8R5R38R6tgoR0y27:assets%2Fimages%2FSufgi.pngR2i399R3R8R5R39R6tgoR0y36:assets%2Fimages%2FTiles%2Fcircle.csvR2i4243R3R4R5R40R6tgoR0y35:assets%2Fimages%2FTiles%2FTiles.pngR2i3028R3R8R5R41R6tgoR0y33:assets%2Fimages%2FTorashiKun1.pngR2i3580R3R8R5R42R6tgoR0y33:assets%2Fimages%2FTorashiKun2.pngR2i3618R3R8R5R43R6tgoR0y35:assets%2Fimages%2FTutorialArrow.pngR2i169R3R8R5R44R6tgoR2i183329R3y5:SOUNDR5y37:assets%2Fmusic%2Fbackground_music.oggy9:pathGroupaR46hR6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R48R6tgoR2i7383R3R45R5y29:assets%2Fsounds%2Fgunshot.oggR47aR49hR6tgoR2i39080R3R45R5y25:assets%2Fsounds%2Fhit.oggR47aR50hR6tgoR2i8410R3R45R5y31:assets%2Fsounds%2Fkalimba_a.oggR47aR51hR6tgoR2i6356R3R45R5y31:assets%2Fsounds%2Fkalimba_b.oggR47aR52hR6tgoR2i8240R3R45R5y31:assets%2Fsounds%2Fkalimba_c.oggR47aR53hR6tgoR2i8475R3R45R5y31:assets%2Fsounds%2Fkalimba_d.oggR47aR54hR6tgoR2i8312R3R45R5y31:assets%2Fsounds%2Fkalimba_e.oggR47aR55hR6tgoR2i8663R3R45R5y31:assets%2Fsounds%2Fkalimba_f.oggR47aR56hR6tgoR2i8374R3R45R5y31:assets%2Fsounds%2Fkalimba_g.oggR47aR57hR6tgoR2i6279R3R45R5y36:assets%2Fsounds%2Fkalimba_high_c.oggR47aR58hR6tgoR2i9024R3R45R5y37:assets%2Fsounds%2Flaserball_shoot.oggR47aR59hR6tgoR2i49109R3R45R5y33:assets%2Fsounds%2Fpickup_item.oggR47aR60hR6tgoR2i35093R3R45R5y26:assets%2Fsounds%2Froll.oggR47aR61hR6tgoR2i34234R3R45R5y29:assets%2Fsounds%2Fshotgun.oggR47aR62hR6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R63R6tgoR2i20745R3R45R5y26:assets%2Fsounds%2Fwalk.oggR47aR64hR6tgoR2i2114R3y5:MUSICR5y26:flixel%2Fsounds%2Fbeep.mp3R47aR66y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R65R5y28:flixel%2Fsounds%2Fflixel.mp3R47aR68y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i5794R3R45R5R67R47aR66R67hgoR2i33629R3R45R5R69R47aR68R69hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R70R71y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i519R3R8R5R76R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i3280R3R8R5R77R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Fbox.pngR2i912R3R8R5R78R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fbutton.pngR2i433R3R8R5R79R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_down.pngR2i446R3R8R5R80R6tgoR0y48:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_left.pngR2i459R3R8R5R81R6tgoR0y49:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_right.pngR2i511R3R8R5R82R6tgoR0y46:flixel%2Fflixel-ui%2Fimg%2Fbutton_arrow_up.pngR2i493R3R8R5R83R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fbutton_thin.pngR2i247R3R8R5R84R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fbutton_toggle.pngR2i534R3R8R5R85R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fcheck_box.pngR2i922R3R8R5R86R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fcheck_mark.pngR2i946R3R8R5R87R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fchrome.pngR2i253R3R8R5R88R6tgoR0y42:flixel%2Fflixel-ui%2Fimg%2Fchrome_flat.pngR2i212R3R8R5R89R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_inset.pngR2i192R3R8R5R90R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Fchrome_light.pngR2i214R3R8R5R91R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Fdropdown_mark.pngR2i156R3R8R5R92R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Ffinger_big.pngR2i1724R3R8R5R93R6tgoR0y43:flixel%2Fflixel-ui%2Fimg%2Ffinger_small.pngR2i294R3R8R5R94R6tgoR0y38:flixel%2Fflixel-ui%2Fimg%2Fhilight.pngR2i129R3R8R5R95R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Finvis.pngR2i128R3R8R5R96R6tgoR0y41:flixel%2Fflixel-ui%2Fimg%2Fminus_mark.pngR2i136R3R8R5R97R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fplus_mark.pngR2i147R3R8R5R98R6tgoR0y36:flixel%2Fflixel-ui%2Fimg%2Fradio.pngR2i191R3R8R5R99R6tgoR0y40:flixel%2Fflixel-ui%2Fimg%2Fradio_dot.pngR2i153R3R8R5R100R6tgoR0y37:flixel%2Fflixel-ui%2Fimg%2Fswatch.pngR2i185R3R8R5R101R6tgoR0y34:flixel%2Fflixel-ui%2Fimg%2Ftab.pngR2i201R3R8R5R102R6tgoR0y39:flixel%2Fflixel-ui%2Fimg%2Ftab_back.pngR2i210R3R8R5R103R6tgoR0y44:flixel%2Fflixel-ui%2Fimg%2Ftooltip_arrow.pngR2i18509R3R8R5R104R6tgoR0y39:flixel%2Fflixel-ui%2Fxml%2Fdefaults.xmlR2i1263R3R4R5R105R6tgoR0y53:flixel%2Fflixel-ui%2Fxml%2Fdefault_loading_screen.xmlR2i1953R3R4R5R106R6tgoR0y44:flixel%2Fflixel-ui%2Fxml%2Fdefault_popup.xmlR2i1848R3R4R5R107R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -10307,9 +10315,10 @@ MenuState.prototype = $extend(flixel_FlxState.prototype,{
 		this.configureBitmapText(creditTxt,"By HardScore & Odedro987",112.);
 		this.add(creditTxt);
 		var fsTxt = new flixel_text_FlxBitmapText(fontXNA);
-		this.configureBitmapText(fsTxt,"Press 'F' to toggle fullscreen",304);
+		this.configureBitmapText(fsTxt,"[F] Toggle Fullscreen   |   [M] Toggle Music Mute",304);
 		fsTxt.scale.set(0.9,0.9);
 		this.add(fsTxt);
+		flixel_FlxG.sound.playMusic("assets/music/background_music.ogg",0.4,true);
 	}
 	,configureBitmapText: function(ref,text,y) {
 		ref.set_text(text);
@@ -10342,6 +10351,14 @@ MenuState.prototype = $extend(flixel_FlxState.prototype,{
 		var _this = flixel_FlxG.keys.justPressed;
 		if(_this.keyManager.checkStatus(70,_this.status)) {
 			flixel_FlxG.set_fullscreen(!flixel_FlxG.get_fullscreen());
+		}
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatus(77,_this.status)) {
+			if(flixel_FlxG.sound.music._volume == 0) {
+				flixel_FlxG.sound.music.set_volume(0.4);
+			} else {
+				flixel_FlxG.sound.music.set_volume(0);
+			}
 		}
 		flixel_FlxState.prototype.update.call(this,elapsed);
 	}
@@ -10436,13 +10453,20 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		}
 		this.hud = new HUD();
 		this.add(this.hud);
-		flixel_FlxG.sound.playMusic("assets/music/background_music.ogg",0.4,true);
 	}
 	,update: function(elapsed) {
 		var _gthis = this;
 		var _this = flixel_FlxG.keys.justPressed;
 		if(_this.keyManager.checkStatus(70,_this.status)) {
 			flixel_FlxG.set_fullscreen(!flixel_FlxG.get_fullscreen());
+		}
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatus(77,_this.status)) {
+			if(flixel_FlxG.sound.music._volume == 0) {
+				flixel_FlxG.sound.music.set_volume(0.4);
+			} else {
+				flixel_FlxG.sound.music.set_volume(0);
+			}
 		}
 		this.entities.forEachExists(function(entity) {
 			_gthis.tileMap.overlaps(js_Boot.__cast(entity , Entity));
@@ -119144,7 +119168,7 @@ GameData.BulletData = (function($this) {
 	_g.set(BulletType.LASER_BALL,{ selfType : BulletType.LASER_BALL, graphic : "assets/images/LaserBall.png", width : 48, height : 48, lifespan : 7, speed : 60, damage : 40, knockbackForce : 512, vulnerableEntities : [EntityType.PLAYER]});
 	_g.set(BulletType.SHOTGUN_SHELL_PLAYER,{ selfType : BulletType.SHOTGUN_SHELL_PLAYER, graphic : "assets/images/ShotgunBullet.png", width : 4, height : 4, lifespan : 0.5, speed : 300, damage : 30, knockbackForce : 300, vulnerableEntities : [EntityType.DON,EntityType.TORASHI_KUN,EntityType.SNEK]});
 	_g.set(BulletType.SHOTGUN_SHELL_ENEMY,{ selfType : BulletType.SHOTGUN_SHELL_ENEMY, graphic : "assets/images/ShotgunBullet.png", width : 4, height : 4, lifespan : 0.4, speed : 300, damage : 3, knockbackForce : 300, vulnerableEntities : [EntityType.PLAYER]});
-	_g.set(BulletType.SMG_ROUND,{ selfType : BulletType.SIMPLE_PLAYER, graphic : "assets/images/ShotgunBullet.png", width : 4, height : 4, lifespan : 1, speed : 350, damage : 8, knockbackForce : 156, vulnerableEntities : [EntityType.DON,EntityType.TORASHI_KUN,EntityType.SNEK]});
+	_g.set(BulletType.SMG_ROUND,{ selfType : BulletType.SIMPLE_PLAYER, graphic : "assets/images/ShotgunBullet.png", width : 4, height : 4, lifespan : 1, speed : 350, damage : 8, knockbackForce : 172, vulnerableEntities : [EntityType.DON,EntityType.TORASHI_KUN,EntityType.SNEK]});
 	$r = _g;
 	return $r;
 }(this));
@@ -119184,10 +119208,10 @@ GameData.ItemData = (function($this) {
 		player.multipliers.weaponCooldown *= 0.9;
 	}});
 	_g.set(ItemType.MAX_SPEED,{ useType : ItemUseType.POWER_UP, selfType : ItemType.MAX_SPEED, lifespan : 10, graphic : "assets/images/RunSpeed.png", width : 16, height : 16, onPickUp : function(player) {
-		player.multipliers.maxSpeed *= 1.1;
+		player.multipliers.maxSpeed *= 1.05;
 	}});
 	_g.set(ItemType.ATTACK_DAMAGE,{ useType : ItemUseType.POWER_UP, selfType : ItemType.ATTACK_DAMAGE, lifespan : 10, graphic : "assets/images/AttackDamage.png", width : 16, height : 16, onPickUp : function(player) {
-		player.multipliers.damage *= 1.25;
+		player.multipliers.damage *= 1.1;
 	}});
 	_g.set(ItemType.WEAPON_SHOTGUN,{ useType : ItemUseType.CONSUMABLE, selfType : ItemType.WEAPON_SHOTGUN, lifespan : 10, graphic : "assets/images/ShotgunItem.png", width : 18, height : 10, onPickUp : function(player) {
 		player.setWeapon(GameData.WeaponData.get(WeaponType.SHOTGUN_PLAYER));
