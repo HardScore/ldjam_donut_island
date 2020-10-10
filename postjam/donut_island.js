@@ -893,7 +893,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "154";
+	app.meta.h["build"] = "155";
 	app.meta.h["company"] = "OdedRon";
 	app.meta.h["file"] = "donut_island";
 	app.meta.h["name"] = "Donut Island";
@@ -9348,13 +9348,14 @@ Globals.timeElapsedToStr = function(timeElapsed) {
 	var secs = Math.round(Math.floor(timeElapsed % 60));
 	return (mins < 10 ? "0" + mins : "" + mins) + ":" + (secs < 10 ? "0" + secs : "" + secs);
 };
-var TutorialFaze = $hxEnums["TutorialFaze"] = { __ename__ : "TutorialFaze", __constructs__ : ["PUSH_BODY","ROLL","DONT_FALL","DONE"]
+var TutorialFaze = $hxEnums["TutorialFaze"] = { __ename__ : "TutorialFaze", __constructs__ : ["PUSH_BODY","CANDY_BAR","ROLL","DONT_FALL","DONE"]
 	,PUSH_BODY: {_hx_index:0,__enum__:"TutorialFaze",toString:$estr}
-	,ROLL: {_hx_index:1,__enum__:"TutorialFaze",toString:$estr}
-	,DONT_FALL: {_hx_index:2,__enum__:"TutorialFaze",toString:$estr}
-	,DONE: {_hx_index:3,__enum__:"TutorialFaze",toString:$estr}
+	,CANDY_BAR: {_hx_index:1,__enum__:"TutorialFaze",toString:$estr}
+	,ROLL: {_hx_index:2,__enum__:"TutorialFaze",toString:$estr}
+	,DONT_FALL: {_hx_index:3,__enum__:"TutorialFaze",toString:$estr}
+	,DONE: {_hx_index:4,__enum__:"TutorialFaze",toString:$estr}
 };
-TutorialFaze.__empty_constructs__ = [TutorialFaze.PUSH_BODY,TutorialFaze.ROLL,TutorialFaze.DONT_FALL,TutorialFaze.DONE];
+TutorialFaze.__empty_constructs__ = [TutorialFaze.PUSH_BODY,TutorialFaze.CANDY_BAR,TutorialFaze.ROLL,TutorialFaze.DONT_FALL,TutorialFaze.DONE];
 var HUD = function() {
 	flixel_group_FlxTypedGroup.call(this);
 	this.hpBar = new flixel_ui_FlxBar(10,20,flixel_ui_FlxBarFillDirection.LEFT_TO_RIGHT,100,20,(js_Boot.__cast(flixel_FlxG.game._state , PlayState)).player,"health");
@@ -9430,7 +9431,7 @@ var HUD = function() {
 	this.tutorialTimer = new flixel_util_FlxTimer();
 	this.tutorialFaze = TutorialFaze.PUSH_BODY;
 	this.tutorialText = new flixel_text_FlxBitmapText(fontXNA);
-	this.configureBitmapText(this.tutorialText,"Shoot",0);
+	this.configureBitmapText(this.tutorialText,"Shoot into well",0);
 	this.tutorialText.scrollFactor.set(1,1);
 	this.tutorialText.scale.set(0.75,0.75);
 	var Alpha = 150;
@@ -9465,6 +9466,7 @@ var HUD = function() {
 	var point = flixel_math_FlxPoint._pool.get().set(X,Y);
 	point._inPool = false;
 	this.mapMidPoint = point;
+	this.tutorialFazeElapsed = 0;
 };
 $hxClasses["HUD"] = HUD;
 HUD.__name__ = "HUD";
@@ -9478,6 +9480,7 @@ HUD.prototype = $extend(flixel_group_FlxTypedGroup.prototype,{
 	,totalTimeElapsed: null
 	,stacks: null
 	,tutorialFaze: null
+	,tutorialFazeElapsed: null
 	,tutorialArrow: null
 	,tutorialText: null
 	,tutorialPoint: null
@@ -9505,22 +9508,41 @@ HUD.prototype = $extend(flixel_group_FlxTypedGroup.prototype,{
 			this.tutorialArrow.set_angle(this.tutorialPoint.angleBetween(this.mapMidPoint));
 			this.tutorialArrow.setPosition(this.tutorialPoint.x,this.tutorialPoint.y - 32);
 			this.tutorialText.setPosition(this.tutorialPoint.x - this.tutorialText.get_width() / 2,this.tutorialPoint.y - 56.);
-			if(!tutorialBody.exists) {
-				this.tutorialText.set_text("Use SHIFT to roll");
-				this.tutorialArrow.set_exists(false);
-				this.tutorialFaze = TutorialFaze.ROLL;
+			this.tutorialFazeElapsed += flixel_FlxG.elapsed;
+			if(!tutorialBody.exists || this.tutorialFazeElapsed > 5) {
+				this.tutorialFazeElapsed = 0;
+				this.tutorialArrow.set_angle(90);
+				(js_Boot.__cast(flixel_FlxG.game._state , PlayState)).hud.sacrificeContainer.getMidpoint(this.tutorialPoint);
+				this.tutorialArrow.setPosition(this.tutorialPoint.x - 32,this.tutorialPoint.y);
+				this.tutorialText.set_text("Fill bar, Get items");
+				this.tutorialText.scrollFactor.set();
+				this.tutorialArrow.scrollFactor.set();
+				this.tutorialText.setPosition(this.tutorialPoint.x - this.tutorialText.get_width() * 1.25,this.tutorialPoint.y);
+				this.tutorialFaze = TutorialFaze.CANDY_BAR;
 			}
 			break;
 		case 1:
-			(js_Boot.__cast(flixel_FlxG.game._state , PlayState)).player.getMidpoint(this.tutorialPoint);
-			this.tutorialText.setPosition(this.tutorialPoint.x - this.tutorialText.get_width() / 2,this.tutorialPoint.y - 32);
-			if((js_Boot.__cast(flixel_FlxG.game._state , PlayState)).player.isRolling) {
-				this.tutorialText.set_text("<- Don't fall off ->");
-				this.tutorialOffset.set(-8,0);
-				this.tutorialFaze = TutorialFaze.DONT_FALL;
+			if(!this.tutorialTimer.active) {
+				this.tutorialTimer.start(3,function(timer) {
+					_gthis.tutorialText.scrollFactor.set(1,1);
+					_gthis.tutorialText.set_text("Use SHIFT to roll");
+					_gthis.tutorialArrow.set_exists(false);
+					_gthis.tutorialFaze = TutorialFaze.ROLL;
+				});
 			}
 			break;
 		case 2:
+			(js_Boot.__cast(flixel_FlxG.game._state , PlayState)).player.getMidpoint(this.tutorialPoint);
+			this.tutorialText.setPosition(this.tutorialPoint.x - this.tutorialText.get_width() / 2,this.tutorialPoint.y - 32);
+			this.tutorialFazeElapsed += flixel_FlxG.elapsed;
+			if((js_Boot.__cast(flixel_FlxG.game._state , PlayState)).player.isRolling || this.tutorialFazeElapsed > 5) {
+				this.tutorialText.set_text("<- Don't fall off ->");
+				this.tutorialOffset.set(-8,0);
+				this.tutorialFazeElapsed = 0;
+				this.tutorialFaze = TutorialFaze.DONT_FALL;
+			}
+			break;
+		case 3:
 			(js_Boot.__cast(flixel_FlxG.game._state , PlayState)).player.getMidpoint(this.tutorialPoint);
 			this.tutorialText.setPosition(this.tutorialPoint.x - this.tutorialText.get_width() / 2 + this.tutorialOffset.x,this.tutorialPoint.y - 32 + this.tutorialOffset.y);
 			if(!this.tutorialTimer.active) {
@@ -9532,7 +9554,7 @@ HUD.prototype = $extend(flixel_group_FlxTypedGroup.prototype,{
 				});
 			}
 			break;
-		case 3:
+		case 4:
 			break;
 		}
 		flixel_group_FlxTypedGroup.prototype.update.call(this,elapsed);
@@ -10441,10 +10463,10 @@ var SacrificeContainer = function(x,y) {
 		++_g;
 		this.candySounds.push(flixel_FlxG.sound.load(soundAsset,0.4,false));
 	}
-	this.candyParticles = new flixel_group_FlxTypedGroup(50);
+	this.candyParticles = new flixel_group_FlxTypedGroup(200);
 	var tempCandy;
 	var _g = 0;
-	while(_g < 50) {
+	while(_g < 200) {
 		var i = _g++;
 		tempCandy = new flixel_FlxSprite(-100,-100);
 		tempCandy.loadGraphic("assets/images/Candy.png",false,10,10);
@@ -76946,7 +76968,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 301956;
+	this.version = 184636;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -119048,7 +119070,6 @@ AssetPaths.PistolBullet__png = "assets/images/PistolBullet.png";
 AssetPaths.PistolItem__png = "assets/images/PistolItem.png";
 AssetPaths.PlayButton__png = "assets/images/PlayButton.png";
 AssetPaths.Player__png = "assets/images/Player.png";
-AssetPaths.Pretzel__png = "assets/images/Pretzel.png";
 AssetPaths.RollBarEmpty__png = "assets/images/RollBarEmpty.png";
 AssetPaths.RollBarFull__png = "assets/images/RollBarFull.png";
 AssetPaths.RunSpeed__png = "assets/images/RunSpeed.png";
@@ -119063,15 +119084,9 @@ AssetPaths.Snek1__png = "assets/images/Snek1.png";
 AssetPaths.Snek2__png = "assets/images/Snek2.png";
 AssetPaths.Sufgi__png = "assets/images/Sufgi.png";
 AssetPaths.circle__csv = "assets/images/Tiles/circle.csv";
-AssetPaths.circle__tmx = "assets/images/Tiles/circle.tmx";
-AssetPaths.MainMenu__tmx = "assets/images/Tiles/MainMenu.tmx";
-AssetPaths.temp_map__csv = "assets/images/Tiles/temp_map.csv";
-AssetPaths.temp_map__tmx = "assets/images/Tiles/temp_map.tmx";
 AssetPaths.Tiles__png = "assets/images/Tiles/Tiles.png";
-AssetPaths.WellOfSacrifice__ase = "assets/images/Tiles/WellOfSacrifice.ase";
 AssetPaths.TorashiKun1__png = "assets/images/TorashiKun1.png";
 AssetPaths.TorashiKun2__png = "assets/images/TorashiKun2.png";
-AssetPaths.ToyPistol__png = "assets/images/ToyPistol.png";
 AssetPaths.TutorialArrow__png = "assets/images/TutorialArrow.png";
 AssetPaths.background_music__ogg = "assets/music/background_music.ogg";
 AssetPaths.music_goes_here__txt = "assets/music/music-goes-here.txt";
@@ -119232,7 +119247,7 @@ Globals.BLOCK_SIZE = 16;
 Globals.MAX_CANDY_COUNT = 80;
 Globals.VIEW_WIDTH = 640;
 Globals.VIEW_HEIGHT = 352;
-Globals.CANDY_PARTICLE_POOL_SIZE = 50;
+Globals.CANDY_PARTICLE_POOL_SIZE = 200;
 Globals.TORASHI_KUN_SUCK_RADIUS = 32;
 Globals.SPAWNABLE_ENEMY_TILES = [0,1,2,3,4,5,6];
 Globals.WELL_CORE_X = 21;
@@ -119245,6 +119260,7 @@ Globals.SPAWN_UNIQUENESS_THRESHOLD = 0.5;
 Globals.RATE_MULTIPLIER_INCREASE_RATE = 10;
 Globals.RATE_MULTIPLIER_INCREASE_BY = 0.066;
 Globals.RATE_MULTIPLIER_MIN_VALUE = 0.333;
+Globals.TUTORIAL_TIMEOUT = 5;
 Globals.LETTERS = " !\"#$%&'()*+,-./" + "0123456789:;<=>?" + "@ABCDEFGHIJKLMNO" + "PQRSTUVWXYZ[]^_" + "abcdefghijklmno" + "pqrstuvwxyz{|}~\\";
 Globals.totalScore = 0;
 Globals.totalTime = 0;
